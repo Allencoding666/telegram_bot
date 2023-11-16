@@ -14,6 +14,10 @@ app = Flask(__name__)
 application = ApplicationBuilder().token(config['TELEGRAM']['ACCESS_TOKEN']).build()
 bot = application.bot
 
+@app.route("/")
+def home():
+    return "首頁的拉"
+
 @app.route('/hook', methods=['POST'])
 def webhook_handler():
     """Set route /hook with POST method will trigger this method."""
@@ -23,8 +27,6 @@ def webhook_handler():
         # Update dispatcher process that handler to process this message
         dispatcher.process_update(update)
     return 'ok'
-
-
 
 
 logging.basicConfig(
