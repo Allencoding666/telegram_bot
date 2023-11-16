@@ -14,9 +14,9 @@ app = Flask(__name__)
 application = ApplicationBuilder().token(config['TELEGRAM']['ACCESS_TOKEN']).build()
 bot = application.bot
 
-@app.route("/")
-def home():
-    return "首頁的拉"
+# @app.route("/")
+# def home():
+#     return "首頁的拉"
 
 @app.route('/hook', methods=['POST'])
 def webhook_handler():
@@ -25,7 +25,7 @@ def webhook_handler():
         update = telegram.Update.de_json(request.get_json(force=True), bot)
 
         # Update dispatcher process that handler to process this message
-        dispatcher.process_update(update)
+        application.process_update(update)
     return 'ok'
 
 
@@ -35,30 +35,30 @@ logging.basicConfig(
 )
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(update)
-    print(context)
-    print(context.args)
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
-
-
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(update)
-    print(context)
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=say_hello())
-
-
-async def bom(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="金大聲")
-
-
-def say_hello():
-    return "Hello"
-
-
-class FilterBom(MessageFilter):
-    def filter(self, message):
-        return "金打瞎" in message.text
+# async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     print(update)
+#     print(context)
+#     print(context.args)
+#     await context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+#
+#
+# async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     print(update)
+#     print(context)
+#     await context.bot.send_message(chat_id=update.effective_chat.id, text=say_hello())
+#
+#
+# async def bom(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     await context.bot.send_message(chat_id=update.effective_chat.id, text="金大聲")
+#
+#
+# def say_hello():
+#     return "Hello"
+#
+#
+# class FilterBom(MessageFilter):
+#     def filter(self, message):
+#         return "金打瞎" in message.text
 
 
 if __name__ == '__main__':
