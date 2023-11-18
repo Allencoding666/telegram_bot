@@ -19,9 +19,6 @@ app = Flask(__name__)
 application = ApplicationBuilder().token(config['TELEGRAM']['ACCESS_TOKEN']).build()
 bot = application.bot
 
-# @app.route("/")
-# def home():
-#     return "首頁的拉"
 
 @app.route('/hook', methods=['POST'])
 def webhook_handler():
@@ -29,10 +26,12 @@ def webhook_handler():
     """Set route /hook with POST method will trigger this method."""
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), bot)
-        application.add_handler(MessageHandler(filters.TEXT, reply_handler))
         print("檢查點 1")
         # Update dispatcher process that handler to process this message
-        application.process_update(update)
+        try:
+            application.process_update(update)
+        except Exception as e:
+            print(f"Error processing update: {e}")
 
         print("檢查點 2")
 
