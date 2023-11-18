@@ -6,6 +6,11 @@ from telegram.ext.filters import MessageFilter
 import configparser
 from flask import Flask, request
 
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
 config = configparser.ConfigParser()
 config.read('config.ini')
 
@@ -29,11 +34,12 @@ def webhook_handler():
     return 'ok'
 
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+async def reply_handler(bot, update):
+    """Reply message."""
+    # text = update.message.text
+    # update.message.reply_text(text)
 
+    update.message.reply_text("好像成功了哦")  # 用AI的文字回傳
 
 # async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     print(update)
@@ -60,6 +66,7 @@ logging.basicConfig(
 #     def filter(self, message):
 #         return "金打瞎" in message.text
 
+application.add_handler(MessageHandler(filters.TEXT, reply_handler))
 
 if __name__ == '__main__':
     # start_handler = CommandHandler('start', start)
