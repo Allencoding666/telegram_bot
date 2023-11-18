@@ -29,20 +29,22 @@ def webhook_handler():
     """Set route /hook with POST method will trigger this method."""
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), bot)
+        application.add_handler(MessageHandler(filters.TEXT, reply_handler))
         print("檢查點 1")
         # Update dispatcher process that handler to process this message
         application.process_update(update)
+
         print("檢查點 2")
 
     return 'ok'
 
 
-def reply_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def reply_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Reply message."""
     # text = update.message.text
     # update.message.reply_text(text)
     print("檢查點 3")
-    context.bot.send_message(chat_id=update.effective_chat.id, text="金大聲")
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="金大聲")
 
 # async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     print(update)
@@ -85,4 +87,5 @@ if __name__ == '__main__':
     #
     #
     # application.run_polling()
+    # application.add_handler(MessageHandler(filters.TEXT, reply_handler))
     app.run(debug=True)
