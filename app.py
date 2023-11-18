@@ -34,12 +34,12 @@ def webhook_handler():
     return 'ok'
 
 
-async def reply_handler(bot, update):
+async def reply_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Reply message."""
     # text = update.message.text
     # update.message.reply_text(text)
 
-    update.message.reply_text("好像成功了哦")  # 用AI的文字回傳
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="金大聲")
 
 # async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     print(update)
