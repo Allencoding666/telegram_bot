@@ -26,6 +26,8 @@ def webhook_handler():
     """Set route /hook with POST method will trigger this method."""
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), bot)
+        chat_id = update.message.chat.id
+        text = update.message.text.encode('utf-8')
         print("檢查點 1")
         # Update dispatcher process that handler to process this message
         try:
@@ -33,6 +35,7 @@ def webhook_handler():
         except Exception as e:
             print(f"Error processing update: {e}")
 
+        bot.sendMessage(chat_id=chat_id, text=text)
         print("檢查點 2")
 
     return 'ok'
