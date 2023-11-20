@@ -34,7 +34,7 @@ def webhook_handler():
             application.process_update(update)
         except Exception as e:
             print(f"Error processing update: {e}")
-
+        update.message.reply_text("ASDASDSAD")
         bot.sendMessage(chat_id=chat_id, text=text)
         print("檢查點 2")
 
