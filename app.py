@@ -18,27 +18,37 @@ app = Flask(__name__)
 
 application = ApplicationBuilder().token(config['TELEGRAM']['ACCESS_TOKEN']).build()
 bot = application.bot
+# a = Update("asdasd", use_c)
 
 
 @app.route('/hook', methods=['POST'])
-def webhook_handler():
+async def webhook_handler():
     print("檢查點 0")
     """Set route /hook with POST method will trigger this method."""
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), bot)
         chat_id = update.message.chat.id
+        print("chat_id : ", chat_id)
         text = update.message.text.encode('utf-8')
+        print("text : ", text)
         print("檢查點 1")
         # Update dispatcher process that handler to process this message
-        try:
-            application.process_update(update)
-        except Exception as e:
-            print(f"Error processing update: {e}")
+        # try:
+        #     application.process_update(update)
+        # except Exception as e:
+        #     print(f"Error processing update: {e}")
+        # context = ContextTypes.DEFAULT_TYPE
         context = ContextTypes.DEFAULT_TYPE
-        context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+        context.bot.send_message(chat_id=update.effective_chat.id, text="RRRRRRRRRRRRRRRRRRR")
+        # bot.sendM
         print("檢查點 2")
 
     return 'ok'
+
+@app.route("/", methods=['GET'])
+def home():
+    x = bot.get_webhook_info()
+    return x
 
 
 async def reply_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
