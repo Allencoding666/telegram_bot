@@ -22,7 +22,7 @@ bot = application.bot
 
 
 @app.route('/hook', methods=['POST'])
-async def webhook_handler():
+def webhook_handler():
     print("檢查點 0")
     """Set route /hook with POST method will trigger this method."""
     if request.method == "POST":
@@ -44,11 +44,6 @@ async def webhook_handler():
         print("檢查點 2")
 
     return 'ok'
-
-@app.route("/", methods=['GET'])
-def home():
-    x = bot.get_webhook_info()
-    return x
 
 
 async def reply_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -83,7 +78,7 @@ async def reply_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     def filter(self, message):
 #         return "金打瞎" in message.text
 
-application.add_handler(MessageHandler(filters.TEXT, reply_handler))
+# application.add_handler(MessageHandler(filters.TEXT, reply_handler))
 
 if __name__ == '__main__':
     # start_handler = CommandHandler('start', start)
@@ -100,4 +95,6 @@ if __name__ == '__main__':
     #
     # application.run_polling()
     # application.add_handler(MessageHandler(filters.TEXT, reply_handler))
+    application.add_handler(MessageHandler(filters.TEXT, reply_handler))
+
     app.run(debug=True)
